@@ -2,7 +2,9 @@
 Vue隐式弹出框(Implicit Modal)
 
 ### 简介
-- 支持iView、Antd
+- 分离代码
+- 关闭时销毁
+- 支持iView、Element、Antd
 - 支持异步导入组件
 
 ### 安装
@@ -11,11 +13,12 @@ Vue隐式弹出框(Implicit Modal)
 import iModal from '?/imodal.plugin'
 Vue.use(iModal)
 ```
-iModal将在弹出框组件的data对象中添加属性Modal：
-- Modal.show可控制对话框的显示/隐藏
-- Modal.$caller可访问调用者组件实例
+iModal将在弹出框组件的data中添加Modal：
+- this.Modal.show可控制对话框的显示/隐藏
+- this.Modal.close()关闭对话框
+
 #### 配置别名
-$Modal.open方法中路径参数是基于别名@modal的相对路径，请在Webpack中配置该alias
+this.$Modal.open方法中路径参数是基于别名@modal的相对路径，请在Webpack中配置该alias
 
 ### 使用
 定义对话框组件(iView)：
@@ -49,7 +52,7 @@ export default {
 ```
 打开iModal弹出框：
 ```javascript
-//异步调用（组件代码量较大且复用性较小）
+//异步调用
 this.$Modal.open('?/modal/message.vue', {
     props: {
         msg: '欢迎使用iModal！这是一条信息！'
@@ -61,7 +64,7 @@ this.$Modal.open('?/modal/message.vue', {
     }
 })
 
-//本地调用（组件代码量较小或复用性较大）
+//本地调用
 import MessageModal from '?/modal/message.vue'
 this.$Modal.open(MessageModal, { ... })
 ```
